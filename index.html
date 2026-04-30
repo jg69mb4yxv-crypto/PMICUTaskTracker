@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- PMICU Task Tracker v2.1 -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -61,7 +62,7 @@
   }
 
   /* ---------- ASSIGNEE COLORS (hue per user, lightness per status) ---------- */
-  /* CSS rules via data attributes — guaranteed to override .task-card background */
+  /* CSS rules via data attributes -- guaranteed to override .task-card background */
   .task-card[data-user="amanuel"][data-status="todo"]    { background: #a5b4fc !important; border-color: #818cf8 !important; }
   .task-card[data-user="amanuel"][data-status="inprog"]  { background: #c7d2fe !important; border-color: #818cf8 !important; }
   .task-card[data-user="amanuel"][data-status="done"]    { background: #e0e7ff !important; border-color: #818cf8 !important; }
@@ -434,13 +435,13 @@
     .nav-tabs { width: 100%; justify-content: stretch; }
     .nav-tab { flex: 1; text-align: center; padding: 7px 8px; font-size: 12px; }
 
-    /* Live indicator — hide text, keep dot */
+    /* Live indicator -- hide text, keep dot */
     #live-label, #live-time { display: none; }
 
     /* Wrapper */
     .wrapper { padding: 16px 12px 80px; }
 
-    /* Stat cards — 2 columns */
+    /* Stat cards -- 2 columns */
     .stats-row { grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 16px; }
     .stat-card { padding: 14px 14px; }
     .stat-card .stat-num { font-size: 1.8rem; }
@@ -460,7 +461,7 @@
     .filters-row select { flex: 1; }
     .task-count { margin-left: 0; width: 100%; text-align: right; }
 
-    /* Color legend — hide on mobile to save space */
+    /* Color legend -- hide on mobile to save space */
     .color-legend { display: none; }
 
     /* Bulk bar */
@@ -480,7 +481,7 @@
     .task-meta { gap: 6px; }
     .badge { font-size: 10px; padding: 2px 7px; }
 
-    /* Task actions — full width row at bottom of card */
+    /* Task actions -- full width row at bottom of card */
     .task-actions {
       width: 100%;
       justify-content: flex-end;
@@ -593,7 +594,7 @@
     <div class="field"><label>DESCRIPTION</label><textarea id="m-desc"></textarea></div>
     <div class="field"><label>ASSIGNEE</label>
       <select id="m-assignee">
-        <option value="">— Unassigned —</option>
+        <option value="">-- Unassigned --</option>
         <option value="Amanuel">Amanuel</option>
         <option value="Junaid">Junaid</option>
         <option value="Carmen">Carmen</option>
@@ -626,10 +627,10 @@
 
     <!-- Stats row -->
     <div class="stats-row" id="stats-row">
-      <div class="stat-card blue"><div class="stat-num" id="st-total">—</div><div class="stat-label">Total Tasks</div></div>
-      <div class="stat-card purple"><div class="stat-num" id="st-inprog">—</div><div class="stat-label">In Progress</div></div>
-      <div class="stat-card pink"><div class="stat-num" id="st-overdue">—</div><div class="stat-label">Overdue</div></div>
-      <div class="stat-card teal"><div class="stat-num" id="st-done">—</div><div class="stat-label">Done</div></div>
+      <div class="stat-card blue"><div class="stat-num" id="st-total">--</div><div class="stat-label">Total Tasks</div></div>
+      <div class="stat-card purple"><div class="stat-num" id="st-inprog">--</div><div class="stat-label">In Progress</div></div>
+      <div class="stat-card pink"><div class="stat-num" id="st-overdue">--</div><div class="stat-label">Overdue</div></div>
+      <div class="stat-card teal"><div class="stat-num" id="st-done">--</div><div class="stat-label">Done</div></div>
     </div>
 
     <!-- Add task form -->
@@ -793,7 +794,7 @@
       <div style="display:flex;align-items:center;gap:12px">
         <select id="identity-select" style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);
           border-radius:var(--radius-sm);padding:10px 13px;font-family:DM Sans,sans-serif;font-size:14px;outline:none;">
-          <option value="">— Select your name —</option>
+          <option value="">-- Select your name --</option>
         </select>
         <button class="btn-add" id="save-identity">Save</button>
         <span id="identity-saved-msg" style="font-size:13px;color:var(--done);opacity:0;transition:opacity 0.3s">✓ Saved</span>
@@ -863,44 +864,23 @@
 
 <script>
 // ============================================================
-//  ⚙️  JSONBIN SETUP — paste your two values below
+//  ⚙️  JSONBIN SETUP -- paste your two values below
 //
 //  1. Go to https://jsonbin.io and create a free account
-//  2. Click "New Bin" — paste in: {"tasks":[],"nextId":1}
+//  2. Click "New Bin" -- paste in: {"tasks":[],"nextId":1}
 //     Make sure "Private" is ON, then click Create
 //  3. Copy the Bin ID from the URL (looks like: 64a7f3c...)
 //  4. Go to API Keys → Master Key → copy it
 //  5. Paste both below
 // ============================================================
-const JSONBIN_BIN_ID  = '69e752d036566621a8d702eb';
-const JSONBIN_API_KEY = '$2a$10$e1tZZURBMyA/AKcK8Dp8N.C/iqmG3DXsQWsvscLAhv15rlxMDn/yO';
+const JSONBIN_BIN_ID  = 'PASTE_BIN_ID_HERE';
+const JSONBIN_API_KEY = 'PASTE_API_KEY_HERE';
 
 const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-const JSONBIN_HEADERS = {
-  'Content-Type': 'application/json',
-  'X-Master-Key': JSONBIN_API_KEY,
-  'X-Bin-Versioning': 'false',   // always overwrite, no version history needed
-};
+const JSONBIN_READ_HEADERS  = { 'X-Master-Key': JSONBIN_API_KEY };
+const JSONBIN_WRITE_HEADERS = { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Versioning': 'false' };
 
-// Show a banner if not yet configured
-(function() {
-  if (JSONBIN_BIN_ID === '69e752d036566621a8d702eb') {
-    document.addEventListener('DOMContentLoaded', () => {
-      const banner = document.createElement('div');
-      banner.style.cssText = `background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;
-        padding:14px 18px;margin:16px auto;max-width:1100px;font-size:13px;color:#92400e;
-        display:flex;gap:10px;align-items:flex-start;`;
-      banner.innerHTML = `<span style="font-size:20px;flex-shrink:0">⚙️</span>
-        <div><strong>One-time setup needed.</strong> Open this file in a text editor,
-        find <code style="background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:4px">JSONBIN_BIN_ID</code>
-        and <code style="background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:4px">JSONBIN_API_KEY</code>
-        and paste in your values from <a href="https://jsonbin.io" target="_blank" style="color:#92400e;font-weight:600">jsonbin.io</a>.
-        See the instructions in the code comments above those lines.</div>`;
-      const wrapper = document.querySelector('.wrapper');
-      if (wrapper) wrapper.insertBefore(banner, wrapper.firstChild);
-    });
-  }
-})();
+// Keys must be set before deploying (see comments above)
 
 // -------- Write-lock: queues concurrent saves so they don't race --------
 let _saveLock = Promise.resolve();
@@ -908,12 +888,12 @@ let _saveLock = Promise.resolve();
 async function loadStore() {
   try {
     console.log('[PMICU] Loading from:', JSONBIN_URL);
-    const res = await fetch(`${JSONBIN_URL}/latest`, { headers: JSONBIN_HEADERS });
+    const res = await fetch(`${JSONBIN_URL}/latest`, { headers: JSONBIN_READ_HEADERS });
     console.log('[PMICU] Load status:', res.status);
     if (!res.ok) {
       const body = await res.text();
       console.error('[PMICU] Load error body:', body);
-      throw new Error(`JSONBin read failed: ${res.status} — ${body}`);
+      throw new Error(`JSONBin read failed: ${res.status} -- ${body}`);
     }
     const j = await res.json();
     console.log('[PMICU] Loaded record:', JSON.stringify(j.record).slice(0, 200));
@@ -928,7 +908,7 @@ async function loadStore() {
   } catch (e) {
     setSyncStatus('offline');
     console.error('[PMICU] loadStore error:', e.message);
-    showToast('⚠️ Could not load from JSONBin: ' + e.message);
+    showToast('[!] Could not load from JSONBin: ' + e.message);
     const raw = localStorage.getItem('tt_store');
     return raw ? JSON.parse(raw) : { tasks: [], nextId: 1 };
   }
@@ -945,7 +925,7 @@ async function _doSave(localStore, changeType, payload) {
     // 1. Read latest from JSONBin to avoid overwriting concurrent changes
     let serverStore;
     try {
-      const res = await fetch(`${JSONBIN_URL}/latest`, { headers: JSONBIN_HEADERS });
+      const res = await fetch(`${JSONBIN_URL}/latest`, { headers: JSONBIN_READ_HEADERS });
       if (res.ok) {
         const j = await res.json();
         serverStore = j.record || {};
@@ -963,7 +943,7 @@ async function _doSave(localStore, changeType, payload) {
     // 2. Write merged result back to JSONBin
     const res = await fetch(JSONBIN_URL, {
       method: 'PUT',
-      headers: JSONBIN_HEADERS,
+      headers: JSONBIN_WRITE_HEADERS,
       body: JSON.stringify(merged),
     });
     if (!res.ok) throw new Error(`JSONBin write failed: ${res.status}`);
@@ -976,7 +956,7 @@ async function _doSave(localStore, changeType, payload) {
   } catch (e) {
     setSyncStatus('error');
     console.error('[PMICU] Save failed:', e);
-    showToast('⚠️ Save failed — check your connection and try again.');
+    showToast('⚠️ Save failed -- check your connection and try again.');
   }
 }
 
@@ -1187,7 +1167,7 @@ document.getElementById('add').addEventListener('click', async () => {
   };
   STORE.nextId = newTask.id + 1;
   await saveStore(STORE, 'add', newTask);
-  // Email notification — new task with assignee
+  // Email notification -- new task with assignee
   if (newTask.assignee && getNotifSettings().new) {
     notifyAssignment(newTask, 'You have been assigned a new task');
   }
@@ -1242,7 +1222,7 @@ document.getElementById('export').addEventListener('click', () => {
   const overdue = active.filter(isOverdue).length;
 
   const summary = [
-    ['PMICU Task Tracker — Summary', ''],
+    ['PMICU Task Tracker -- Summary', ''],
     ['Exported', new Date().toLocaleDateString()],
     [''],
     ['Status', 'Count'],
@@ -1305,7 +1285,7 @@ document.getElementById('m-save').addEventListener('click', async () => {
   const savedTask = { ...t }; // snapshot before closeModal clears editingId
   closeModal();
   await saveStore(STORE, 'update', savedTask);
-  // Email notification — reassignment
+  // Email notification -- reassignment
   if (savedTask.assignee && savedTask.assignee !== prevAssignee && getNotifSettings().reassign) {
     notifyAssignment(savedTask, 'You have been assigned a task');
   }
@@ -1427,11 +1407,11 @@ function renderSettings() {
   const sel = document.getElementById('identity-select');
   if (sel) {
     const current = getMyName();
-    sel.innerHTML = '<option value="">— Select your name —</option>' +
+    sel.innerHTML = '<option value="">-- Select your name --</option>' +
       users.map(u => `<option value="${u}" ${u === current ? 'selected' : ''}>${u}</option>`).join('');
   }
 
-  // User management card — only visible to Amanuel
+  // User management card -- only visible to Amanuel
   const card = document.getElementById('user-mgmt-card');
   if (card) card.style.display = isAdmin ? '' : 'none';
 
@@ -1455,7 +1435,7 @@ function renderSettings() {
     });
   }
 
-  // Email fields — one per user
+  // Email fields -- one per user
   const emailFields = document.getElementById('email-fields');
   if (emailFields) {
     emailFields.innerHTML = users.map(u => `
@@ -1558,7 +1538,7 @@ function notifyAssignment(task, reason) {
   const map = getEmailMap();
   const email = map[task.assignee];
   if (!email) {
-    showToast(`⚠️ No email set for ${task.assignee} — add it in Settings`);
+    showToast(`⚠️ No email set for ${task.assignee} -- add it in Settings`);
     return;
   }
   const prioLabel = task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : '';
@@ -1644,7 +1624,7 @@ document.getElementById('bulk-delete').addEventListener('click', async () => {
     document.getElementById('bulk-bar').classList.remove('visible');
     document.getElementById('select-all').checked = false;
   } catch(e) {
-    showToast('⚠️ Some tasks could not be deleted. Please try again.');
+    showToast('[!] Some tasks could not be deleted. Please try again.');
   }
   btn.disabled = false; btn.textContent = '🗑 Delete Selected';
 });
@@ -1660,7 +1640,7 @@ document.getElementById('bulk-delete').addEventListener('click', async () => {
 // -------- Auto-refresh (every 45 seconds) --------
 // Silently polls tasks.json and re-renders only if the data changed.
 // Skipped while the user has the edit modal open to avoid interrupting edits.
-const AUTO_REFRESH_INTERVAL = 45000; // ms — change if needed
+const AUTO_REFRESH_INTERVAL = 45000; // ms -- change if needed
 
 function startAutoRefresh() {
   // Add a subtle "live" dot to the topbar so users know the app is syncing
@@ -1729,39 +1709,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // -------- iOS install prompt --------
-window.addEventListener('load', () => {
-  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone;
-  const dismissed = sessionStorage.getItem('pwa-prompt-dismissed');
-  if (isIos && !isStandalone && !dismissed) {
-    const banner = document.createElement('div');
-    banner.style.cssText = `
-      position:fixed;bottom:0;left:0;right:0;z-index:9998;
-      background:#fff;border-top:1px solid rgba(0,0,0,0.1);
-      padding:16px 20px 28px;
-      box-shadow:0 -4px 20px rgba(0,0,0,0.12);
-      display:flex;gap:14px;align-items:flex-start;
-      font-family:DM Sans,sans-serif;font-size:13px;
-    `;
-    banner.innerHTML = `
-      <div style="font-size:14px;font-weight:900;font-family:Arial Black,sans-serif;color:#2e7ff1;letter-spacing:-0.5px;line-height:1;padding-top:4px">PMICU</div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:14px;margin-bottom:4px">Add to Home Screen</div>
-        <div style="color:#7a80a8;line-height:1.5">
-          Tap <strong>Share</strong> <span style="font-size:16px">⬆️</span> then
-          <strong>"Add to Home Screen"</strong> to install this app on your iPhone.
-        </div>
-      </div>
-      <button id="pwa-dismiss-btn" style="background:none;border:none;font-size:20px;color:#aaa;cursor:pointer;padding:0;flex-shrink:0">✕</button>
-    `;
-    document.body.appendChild(banner);
-    var dismissBtn = document.getElementById('pwa-dismiss-btn');
-    if (dismissBtn) dismissBtn.addEventListener('click', function() {
-      banner.remove();
-      sessionStorage.setItem('pwa-prompt-dismissed', '1');
-    });
-  }
-});
+// To install: open in Safari, tap Share, then "Add to Home Screen"
 </script>
 </body>
 </html>
